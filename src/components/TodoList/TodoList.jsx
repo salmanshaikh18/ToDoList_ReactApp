@@ -1,6 +1,10 @@
+import { useContext } from 'react'
+import TodoContext from '../../context/TodoContext'
 import Todo from '../Todo/Todo'
 
-const TodoList = ({ list, setList }) => {
+const TodoList = () => {
+
+    const {list, setList} = useContext(TodoContext)
 
     return (
         <div>
@@ -12,8 +16,12 @@ const TodoList = ({ list, setList }) => {
                             if (t.id === todo.id) {
                                 todo.finished = isFinished
                             }
-                            return todo;
+                            return t;
                         })
+                        setList(updatedList)
+                    }}
+                    onDelete={() => {
+                        const updatedList = list.filter(t => t.id != todo.id )
                         setList(updatedList)
                     }}
                 />)}
