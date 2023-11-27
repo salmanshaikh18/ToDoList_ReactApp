@@ -1,8 +1,12 @@
 import React, { useState } from 'react'
 
-const Todo = ({ todoData, isFinished, changeFinished, onDelete }) => {
+const Todo = ({ todoData, isFinished, changeFinished, onDelete, onEdit }) => {
 
     const [finished, setFinished] = useState(isFinished)
+
+    const [isEditing, setIsEditing] = useState(false)
+
+    const [editText, setEditText] = useState(todoData)
 
     return (
         <div className='mt-5'>
@@ -15,8 +19,15 @@ const Todo = ({ todoData, isFinished, changeFinished, onDelete }) => {
                     changeFinished(e.target.checked)
                 }}
             />
-            {todoData}
-            <button className='p-2 bg-red-500 rounded m-2'>Edit</button>
+            {(isEditing) ? <input className='text-black' type="text" value={editText} onChange={e => setEditText(e.target.value)} /> : <spna>{todoData}</spna>}
+            <button
+                className='p-2 bg-red-500 rounded m-2' onClick={() => {
+                    setIsEditing(!isEditing)
+                    onEdit(editText)
+
+                }}>
+                {(!isEditing) ? 'Edit' : 'Save'}
+            </button>
             <button className='p-2 bg-red-500 rounded m-2' onClick={onDelete}>Delete</button>
         </div>
     )
